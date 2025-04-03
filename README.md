@@ -3,10 +3,8 @@
 ## Main Pages
 - [index.html](https://aaas-stpf-ai-affinity-group.github.io/aaas-stpf-ai-ag.github.io//index.html) (Home page)
 - [about.html](https://aaas-stpf-ai-affinity-group.github.io/aaas-stpf-ai-ag.github.io//about.html) (About the group)
-- events.html (Upcoming and past events)
-- resources.html (AI resources and publications)
-- members.html (Member profiles/directory)
-- contact.html (Contact information)
+- [resources.html](https://aaas-stpf-ai-affinity-group.github.io/aaas-stpf-ai-ag.github.io//resources.html) (AI resources and publications)
+- [contact.html](https://aaas-stpf-ai-affinity-group.github.io/aaas-stpf-ai-ag.github.io//contact.html) (Contact information)
 
 ## Assets
 - css/
