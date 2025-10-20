@@ -42,40 +42,41 @@
         </div>
     </section>
 
-    <!-- Upcoming Events Section -->
-    <section class="events">
-        <div class="container">
-            <h2>Upcoming Events</h2>
-            <div class="event-cards">
-                <div class="card">
-                    <div class="card-date">
-                        <span class="month">APR</span>
-                        <span class="day">23</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>Virtual Seminar: Career chat with Erik Breckenfeld, Director of Technology Policy for NVIDIA’s government affairs team </h3>
-                        <p>Join us to hear about AAAS STPF Alum Erik Breckenfeld's career trajectory and how he got to NVIDIA.</p>
-                        <p class="event-details"><i class="fas fa-clock"></i> 6:00 PM EST  | <i class="fas fa-video"></i> Zoom</p>
-                    </div>
-                </div>
-                <div class="card">
-                <div class="card-date">
-                        <span class="month">MAY</span>
-                        <span class="day">21</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>Book club discussion on AI Snake Oil by Arvind Narayanan and Sayash Kapoor</h3>
-                        <p>Join us for an in-person discussion with Sayash Kapoor, Co-author of <a href="https://www.aisnakeoil.com/p/starting-reading-the-ai-snake-oil"> 
-                            AI Snake Oil: What Artificial Intelligence Can Do, What It Can’t, and How to Tell the Difference!</a></p>
-                        <p class="event-details"><i class="fas fa-clock"></i> 5:30 PM EST | <i class="fa fa-user"></i> Location: Refer to email</p>
-                    </div>
-                </div>
-            </div>
-            <div class="section-footer">
-                <a href="about.html" class="link-arrow">View All Events <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </section>
+  <!-- Upcoming Events Section (Luma-powered) -->
+<section class="events">
+  <div class="container">
+    <h2>Upcoming Events</h2>
+
+    <!-- Paste your Luma embed snippet inside this div.
+         Get it from Luma: Calendars → Settings → Embed -->
+    <div class="luma-embed-wrapper">
+      <!-- START: Luma embed -->
+      <!-- <iframe src="https://luma.com/embed/calendar/cal-EpmfLa1xSxNsRkh/events"
+  width="600"
+  height="450"
+  frameborder="0"
+  style="border: 1px solid #bfcbda88; border-radius: 4px;"
+  allowfullscreen=""
+  aria-hidden="false"
+  tabindex="0"
+></iframe>
+      <!-- END: Luma embed -->
+
+      <!-- Fallback link if scripts are blocked -->
+      <noscript>
+        <p>See our full calendar on Luma:</p>
+        <p><a class="btn" href="https://luma.com/aipolicyag?k=c" target="_blank" rel="noopener">Open Events Calendar</a></p>
+      </noscript>
+    </div>
+
+    <div class="section-footer">
+      <a href="https://luma.com/aipolicyag?k=c" class="link-arrow" target="_blank" rel="noopener">
+        View All Events <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
 
     <!-- Join Section -->
     <section class="join-cta">
