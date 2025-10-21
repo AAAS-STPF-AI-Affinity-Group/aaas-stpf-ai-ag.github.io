@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Group Activities - AAAS STPF AI Policy Affinity Group</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html"><h1>AAAS STPF AI Policy Affinity Group</h1></a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="activities.html" class="active">Activities</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Group Activities</h1>
+      <p>Upcoming events, plus an archive of past events and member-written summaries.</p>
+    </div>
+  </section>
+
+  <!-- Upcoming Events (Luma) -->
+  <section class="events">
+    <div class="container">
+      <h2>Upcoming Events</h2>
+      <div class="luma-embed-wrapper">
+        <!-- START: Paste your real Luma embed snippet below -->
+        <!-- <iframe
+  src="https://luma.com/embed/calendar/cal-EpmfLa1xSxNsRkh/events"
+  width="600"
+  height="450"
+  frameborder="0"
+  style="border: 1px solid #bfcbda88; border-radius: 4px;"
+  allowfullscreen=""
+  aria-hidden="false"
+  tabindex="0"
+></iframe> -->
+        <!-- END: Luma embed -->
+      <div class="luma-embed-wrapper">
+  <iframe
+    src="https://luma.com/embed/calendar/cal-EpmfLa1xSxNsRkh/events"
+    title="AI Policy AG — Upcoming Events"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    frameborder="0"
+    allowfullscreen
+    aria-hidden="false"
+    tabindex="0"
+    style="width:100%; min-height: 750px; border: 1px solid #bfcbda88; border-radius: 4px;"
+  ></iframe>
+
+  <noscript>
+    <p>See our calendar on Luma:
+      <a class="btn" href="https://lu.ma/aipolicyag" target="_blank" rel="noopener">Open Events Calendar</a>
+    </p>
+  </noscript>
+</div>
+
+
+  <!-- Past Events Archive -->
+  <section>
+    <div class="container">
+      <h2>Past Events & Summaries</h2>
+
+      <!-- Filters -->
+      <div class="filters">
+        <select id="filter-year" aria-label="Filter by year">
+          <option value="">All Years</option>
+          <option>2025</option>
+          <option>2024</option>
+          <option>2023</option>
+          <option>2022</option>
+        </select>
+
+        <select id="filter-topic" aria-label="Filter by topic">
+          <option value="">All Topics</option>
+          <option value="measurement">Measurement</option>
+          <option value="safety">Safety</option>
+          <option value="standards">Standards</option>
+          <option value="policy">Policy</option>
+          <option value="careers">Careers</option>
+        </select>
+
+        <input id="filter-text" type="search" placeholder="Search titles & summaries…" aria-label="Search"/>
+      </div>
+
+      <!-- Cards grid -->
+      <div id="archive" class="event-cards">
+
+        <!-- SAMPLE CARD 1 (Patrick Hall talk) -->
+        <article class="card event-item"
+          data-year="2025"
+          data-topics="measurement,policy"
+          data-text="Beyond Benchmarks evals measurement real world NIST ARIA robust CoRIx">
+          <div class="card-content">
+            <h3>Beyond Benchmarks & “Evals”: AI Measurement in the Real World</h3>
+            <p class="event-details"><i class="fas fa-calendar"></i> Oct 14, 2025 &nbsp;|&nbsp; Host: Data Community DC & DC-NLP</p>
+            <p>Talk by Prof. Patrick Hall on why static leaderboards miss real-world risks (bias, privacy leaks, misinformation), and how blended approaches (benchmarks + red-teaming + field testing) like NIST ARIA/CoRIx better capture impact.</p>
+            <p>
+              <span class="tag">Measurement</span>
+              <span class="tag">Policy</span>
+            </p>
+            <!-- Optional links -->
+            <!-- <p><a href="https://drive.google.com/file/d/17Nv1I0lKdNwTSw6FTrcMk1-bcT71v8Pg/view?usp=drive_link" target="_blank" rel="noopener">Slides</a> · <a href="https://docs.google.com/document/d/1zJ0UTSDDZVqhQzsUCI_INNKBMc2ysa7BzcIud8mymas/edit?usp=drive_link" target="_blank" rel="noopener">Summary</a></p> -->
+          </div>
+        </article>
+
+        <!-- SAMPLE CARD 2 -->
+        <article class="card event-item"
+          data-year="2025"
+          data-topics="careers,policy"
+          data-text="Erik Breckenfeld career chat NVIDIA government affairs AAAS alumni">
+          <div class="card-content">
+            <h3>Career Chat: Erik Breckenfeld (NVIDIA, Technology Policy)</h3>
+            <p class="event-details"><i class="fas fa-calendar"></i> Apr 23, 2025 &nbsp;|&nbsp; Virtual</p>
+            <p>AAAS STPF alum shared his path into industry policy roles and lessons for navigating public-private AI policy work.</p>
+            <p>
+              <span class="tag">Careers</span>
+              <span class="tag">Policy</span>
+            </p>
+          </div>
+        </article>
+
+        <!-- Add more cards above this comment as you archive events -->
+      </div>
+
+      <div class="section-footer">
+        <a class="btn btn-small" href="mailto:aipolicyag@gmail.com?subject=Event%20Summary%20Submission">Contribute a Summary</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h3>AAAS STPF AI Affinity Group</h3>
+          <p>Advancing AI policy and research in federal service: The work of the AAAS STPF AI affinity group does not reflect the views of the S&T Policy Fellowships, AAAS, its Council, Board of Directors, officers, or members.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="activities.html">Activities</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p><i class="fas fa-envelope"></i> aipolicyag@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 AAAS STPF AI Affinity Group. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Page-only filter script (kept local to this page) -->
+  <script>
+    (function() {
+      const items = Array.from(document.querySelectorAll('.event-item'));
+      const yearSel = document.getElementById('filter-year');
+      const topicSel = document.getElementById('filter-topic');
+      const textInp = document.getElementById('filter-text');
+
+      function applyFilters() {
+        const year = yearSel.value;
+        const topic = topicSel.value;
+        const text = (textInp.value || '').toLowerCase();
+
+        items.forEach(el => {
+          const y = el.getAttribute('data-year');
+          const topics = (el.getAttribute('data-topics') || '').split(',').map(s => s.trim());
+          const blob = (el.getAttribute('data-text') || '').toLowerCase() + ' ' + el.innerText.toLowerCase();
+
+          const okYear = !year || year === y;
+          const okTopic = !topic || topics.includes(topic);
+          const okText = !text || blob.includes(text);
+
+          el.style.display = (okYear && okTopic && okText) ? '' : 'none';
+        });
+      }
+
+      [yearSel, topicSel, textInp].forEach(el => el.addEventListener('input', applyFilters));
+      applyFilters();
+    })();
+  </script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
