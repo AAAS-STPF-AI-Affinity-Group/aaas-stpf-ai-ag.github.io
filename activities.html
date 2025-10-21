@@ -73,27 +73,35 @@
     <div class="container">
       <h2>Past Events &amp; Summaries</h2>
 
-      <!-- Filters -->
-      <div class="filters">
-        <select id="filter-year" aria-label="Filter by year">
-          <option value="">All Years</option>
-          <option>2025</option>
-          <option>2024</option>
-          <option>2023</option>
-          <option>2022</option>
-        </select>
+     <!-- Filter Bar -->
+<div class="filter-bar">
+  <div class="filters">
+    <label for="filter-year" class="sr-only">Year</label>
+    <select id="filter-year" aria-label="Filter by year">
+      <option value="">All Years</option>
+      <option>2025</option>
+      <option>2024</option>
+      <option>2023</option>
+      <option>2022</option>
+    </select>
 
-        <select id="filter-topic" aria-label="Filter by topic">
-          <option value="">All Topics</option>
-          <option value="measurement">Measurement</option>
-          <option value="safety">Safety</option>
-          <option value="standards">Standards</option>
-          <option value="policy">Policy</option>
-          <option value="careers">Careers</option>
-        </select>
+    <label for="filter-topic" class="sr-only">Topic</label>
+    <select id="filter-topic" aria-label="Filter by topic">
+      <option value="">All Topics</option>
+      <option value="measurement">Measurement</option>
+      <option value="safety">Safety</option>
+      <option value="standards">Standards</option>
+      <option value="policy">Policy</option>
+      <option value="careers">Careers</option>
+    </select>
 
-        <input id="filter-text" type="search" placeholder="Search titles &amp; summaries…" aria-label="Search"/>
-      </div>
+    <label for="filter-text" class="sr-only">Search</label>
+    <input id="filter-text" type="search" placeholder="Search titles & summaries…" aria-label="Search" />
+
+    <button id="filter-reset" type="button" class="btn btn-small btn-ghost">Clear</button>
+  </div>
+</div>
+
 
       <!-- Cards grid -->
       <div id="archive" class="event-cards">
@@ -138,10 +146,7 @@
         <!-- Add more cards above this comment as you archive events -->
       </div>
 
-      <div class="section-footer">
-        <a class="btn btn-small" href="mailto:aipolicyag@gmail.com?subject=Event%20Summary%20Submission">Contribute a Summary</a>
-      </div>
-    </div>
+     
   </section>
 
   <!-- Footer -->
@@ -176,38 +181,45 @@
     </div>
   </footer>
 
-  <!-- Page-only filter script (kept local to this page) -->
-  <script>
-    (function() {
-      const items = Array.from(document.querySelectorAll('.event-item'));
-      const yearSel = document.getElementById('filter-year');
-      const topicSel = document.getElementById('filter-topic');
-      const textInp = document.getElementById('filter-text');
+<!-- Page-only filter script (kept local to this page) -->
+<script>
+  (function() {
+    const items = Array.from(document.querySelectorAll('.event-item'));
+    const yearSel = document.getElementById('filter-year');
+    const topicSel = document.getElementById('filter-topic');
+    const textInp = document.getElementById('filter-text');
+    const resetBtn = document.getElementById('filter-reset');
 
-      function applyFilters() {
-        const year = yearSel.value;
-        const topic = topicSel.value;
-        const text = (textInp.value || '').toLowerCase();
+    function applyFilters() {
+      const year = yearSel.value;
+      const topic = topicSel.value;
+      const text = (textInp.value || '').toLowerCase();
 
-        items.forEach(el => {
-          const y = el.getAttribute('data-year');
-          const topics = (el.getAttribute('data-topics') || '').split(',').map(s => s.trim());
-          const blob = (el.getAttribute('data-text') || '').toLowerCase() + ' ' + el.innerText.toLowerCase();
+      items.forEach(el => {
+        const y = el.getAttribute('data-year');
+        const topics = (el.getAttribute('data-topics') || '').split(',').map(s => s.trim());
+        const blob = (el.getAttribute('data-text') || '').toLowerCase() + ' ' + el.innerText.toLowerCase();
 
-          const okYear = !year || year === y;
-          const okTopic = !topic || topics.includes(topic);
-          const okText = !text || blob.includes(text);
+        const okYear = !year || year === y;
+        const okTopic = !topic || topics.includes(topic);
+        const okText = !text || blob.includes(text);
 
-          el.style.display = (okYear && okTopic && okText) ? '' : 'none';
-        });
-      }
+        el.style.display = (okYear && okTopic && okText) ? '' : 'none';
+      });
+    }
 
-      [yearSel, topicSel, textInp].forEach(el => el.addEventListener('input', applyFilters));
+    [yearSel, topicSel, textInp].forEach(el => el.addEventListener('input', applyFilters));
+
+    resetBtn?.addEventListener('click', () => {
+      yearSel.value = '';
+      topicSel.value = '';
+      textInp.value = '';
       applyFilters();
-    })();
-  </script>
+    });
 
-  <script src="js/main.js"></script>
-</body>
-</html>
-```
+    // Initial render
+    applyFilters();
+  })();
+</script>
+
+
