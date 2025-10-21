@@ -658,3 +658,50 @@ footer {
 }
 
 
+/* ---------- Core Values: Compact Layout ---------- */
+.values-section { padding: 40px 0; } /* reduce vertical padding */
+
+.values-section h2 { margin-bottom: 28px; } /* tighten header spacing */
+
+.values-grid {
+  max-width: 1000px;        /* keep content centered and narrower */
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* two columns on desktop */
+  gap: 16px 24px;           /* tighter gaps */
+}
+
+.value-item {
+  background: #fff;
+  border: 1px solid #e8eef6;
+  border-radius: 12px;
+  padding: 16px 18px;       /* smaller padding */
+  box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+  display: grid;
+  grid-template-columns: 36px 1fr; /* icon column + content column */
+  column-gap: 14px;
+  align-items: flex-start;
+}
+
+.value-icon {
+  font-size: 22px;          /* smaller icon */
+  color: var(--primary-color);
+  margin: 4px 0 0 0;
+}
+
+.value-item h3 {
+  margin: 0 0 6px 0;        /* tighter heading */
+}
+
+.value-item p {
+  margin: 0;                /* remove extra paragraph margin */
+  color: #444;
+  line-height: 1.5;
+}
+
+/* Single column on smaller screens */
+@media (max-width: 900px) {
+  .values-grid { grid-template-columns: 1fr; }
+}
+
+
