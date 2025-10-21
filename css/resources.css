@@ -1411,3 +1411,84 @@ footer {
     .success-message p {
         margin-bottom: 0;
     }
+
+/* ---------- Activities Page: Filters & Tags ---------- */
+.filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filters select,
+.filters input[type="search"] {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-width: 180px;
+  font: inherit;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  background: #eef3ff;
+  color: #223344;
+  border-radius: 999px;
+  padding: 4px 10px;
+  margin-right: 6px;
+  margin-top: 6px;
+}
+
+/* ---------- Page Header / About Layout / Values ---------- */
+.page-header {
+  background: linear-gradient(rgba(0,51,102,0.85), rgba(0,51,102,0.85)), url('../images/header-bg.jpg') center/cover no-repeat;
+  color: #fff;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.page-header h1 {
+  color: #fff;
+  margin: 0;
+}
+
+.about-section .about-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* easy one-column default */
+  gap: 32px;
+}
+
+.about-section .about-content p + h2 {
+  margin-top: 20px;
+}
+
+.values-section {
+  background: #fafafa;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.value-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: left;
+}
+
+.value-icon {
+  font-size: 28px;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+}
+
+@media (max-width: 900px) {
+  .values-grid { grid-template-columns: 1fr; }
+}
