@@ -487,3 +487,41 @@ footer {
   display: inline-block; color: var(--text-muted); margin-bottom: 6px; font-size: .95rem;
 }
 .news-item h3 { font-size: 1.18rem; margin-bottom: 8px; }
+
+
+/* === About → Core Values fix === */
+
+/* Make the card a 2-column grid: icon | content */
+.value-item {
+  display: grid;
+  grid-template-columns: 36px 1fr; /* 1st col for icon, 2nd for text */
+  column-gap: 14px;
+  align-items: start;
+}
+
+/* Put ALL children in the text column by default... */
+.value-item > * {
+  grid-column: 2;
+}
+
+/* ...except the icon, which stays in column 1 */
+.value-item .value-icon {
+  grid-column: 1;
+  font-size: 22px;
+  color: var(--primary);
+  margin-top: 2px;
+}
+
+/* Tighter, readable spacing */
+.value-item h3 { margin: 0 0 6px; }
+.value-item p  { margin: 0; color: var(--text-muted); line-height: 1.55; }
+
+/* Make the overall grid adapt nicely at different widths */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
