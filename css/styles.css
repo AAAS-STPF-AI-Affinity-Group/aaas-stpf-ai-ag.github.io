@@ -704,4 +704,51 @@ footer {
   .values-grid { grid-template-columns: 1fr; }
 }
 
+/* ---------- Activities: single column, wider cards, tags at bottom ---------- */
+
+/* Make the archive a single centered column with comfortable width */
+.event-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 980px;   /* adjust to taste: 900–1100px */
+  margin: 0 auto;
+}
+
+/* Let each card fill the width of the column */
+.card {
+  max-width: none;
+  margin: 0;          /* rely on .event-cards gap for spacing */
+}
+
+/* Stack content so we can pin tags to the bottom */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Put tags at the bottom of the card content */
+.card-content .tags {
+  margin-top: auto;         /* pushes tags to bottom */
+  padding-top: 8px;
+  border-top: 1px solid #eef2f7;
+  font-size: 0.95rem;
+  color: #223;
+}
+
+/* Convert chip-style tags into plain text and insert commas automatically */
+.card-content .tags .tag {
+  background: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+}
+
+.card-content .tags .tag + .tag::before {
+  content: ", ";
+}
+
+/* Mobile: keep single column and comfortable spacing (already handled) */
 
