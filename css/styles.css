@@ -525,3 +525,19 @@ footer {
   margin: 0 auto;
 }
 
+/* Mobile safety: never clip event text */
+.event-cards.one-col .card { overflow: visible; }
+.event-cards.one-col .card-content { overflow: visible; }
+
+/* Ensure long words/links wrap nicely on small screens */
+.event-cards.one-col .card-content p,
+.event-cards.one-col .card-content a,
+.event-cards.one-col .card-content h3 {
+  overflow-wrap: anywhere;  /* modern */
+  word-break: normal;       /* avoid aggressive breaking */
+}
+
+/* Filter controls: give a tad more room on phones */
+@media (max-width: 420px) {
+  .filters { gap: 8px; }
+}
