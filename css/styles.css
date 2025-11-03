@@ -541,3 +541,24 @@ footer {
 @media (max-width: 420px) {
   .filters { gap: 8px; }
 }
+
+/* Keep Upcoming Events compact and scrollable */
+.luma-embed-wrapper {
+  max-height: 460px;       /* container cap */
+  overflow: hidden;        /* hide any extra */
+  margin-bottom: 1.5rem;
+}
+
+/* Control the iframe height (overrides any inline) */
+.luma-embed-wrapper iframe {
+  height: 420px !important;   /* compact default */
+  min-height: 420px !important;
+}
+
+/* Roomier on larger screens if you want */
+@media (min-width: 992px) {
+  .luma-embed-wrapper iframe {
+    height: 480px !important;
+    min-height: 480px !important;
+  }
+}
