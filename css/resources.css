@@ -305,8 +305,9 @@ body.view-landing .resources-page-header .hero-meta { display: none; }
   box-shadow: 0 6px 16px var(--shadow);
   position: sticky;
   top: 90px;
-  max-height: calc(100vh - 110px);
-  overflow-y: auto;
+  /* Intentionally no overflow / max-height here so chip tooltips can
+     escape vertically. The mobile filter-sheet block below restores
+     scrolling for the fixed-position sheet. */
 }
 .filter-sidebar-header {
   display: flex;
@@ -374,6 +375,94 @@ body.view-landing .resources-page-header .hero-meta { display: none; }
 .filter-option:focus-within {
   outline: 3px solid rgba(0, 102, 204, 0.25);
   outline-offset: 2px;
+}
+/* Hint that a tooltip definition is available on hover. */
+.filter-option.has-definition { cursor: help; }
+.filter-option.has-definition .opt-text {
+  text-decoration: underline dotted;
+  text-decoration-color: rgba(34, 34, 51, 0.35);
+  text-underline-offset: 2px;
+}
+.filter-option.has-definition.checked .opt-text {
+  text-decoration-color: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- Generic tooltip on chip-like elements ----------
+   Custom CSS tooltip (no native-title delay). Scoped to filter chips,
+   card badges, and topic chips so it never collides with the
+   search-submit-btn's own tooltip styling. */
+.filter-option[data-tooltip],
+.badge[data-tooltip],
+.topic-chip[data-tooltip] {
+  position: relative;
+}
+.filter-option[data-tooltip]::before,
+.filter-option[data-tooltip]::after,
+.badge[data-tooltip]::before,
+.badge[data-tooltip]::after,
+.topic-chip[data-tooltip]::before,
+.topic-chip[data-tooltip]::after {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .12s ease;
+  z-index: 50;
+}
+.filter-option[data-tooltip]::after,
+.badge[data-tooltip]::after,
+.topic-chip[data-tooltip]::after {
+  content: attr(data-tooltip);
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: min(260px, calc(100vw - 32px));
+  background: #0f172a;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.4;
+  white-space: normal;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+.filter-option[data-tooltip]::before,
+.badge[data-tooltip]::before,
+.topic-chip[data-tooltip]::before {
+  content: '';
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #0f172a;
+}
+.filter-option[data-tooltip]:hover::before,
+.filter-option[data-tooltip]:hover::after,
+.filter-option[data-tooltip]:focus-within::before,
+.filter-option[data-tooltip]:focus-within::after,
+.badge[data-tooltip]:hover::before,
+.badge[data-tooltip]:hover::after,
+.topic-chip[data-tooltip]:hover::before,
+.topic-chip[data-tooltip]:hover::after {
+  opacity: 1;
+}
+.badge[data-tooltip],
+.topic-chip[data-tooltip] {
+  cursor: help;
+}
+/* Suppress on touch-only devices — hover doesn't fire reliably. */
+@media (hover: none) {
+  .filter-option[data-tooltip]::before,
+  .filter-option[data-tooltip]::after,
+  .badge[data-tooltip]::before,
+  .badge[data-tooltip]::after,
+  .topic-chip[data-tooltip]::before,
+  .topic-chip[data-tooltip]::after { display: none; }
 }
 
 .filter-sidebar-footer {
@@ -609,57 +698,86 @@ body.view-landing .resources-page-header .hero-meta { display: none; }
   border-color: var(--border);
 }
 
-.card-author {
-  font-size: 0.85rem;
-  color: var(--text-muted);
+/* Author + curator attribution at the bottom of a card. */
+.card-attribution {
   margin: auto 0 0;
+  padding-top: 6px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 14px;
+  row-gap: 4px;
 }
-.card-author i { margin-right: 4px; }
+.attribution-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.attribution-item i { color: var(--text-muted); font-size: 0.88em; }
 
-/* Tool review section */
-.tool-review {
-  margin-top: 4px;
-  padding: 12px 14px;
-  background: #fff7e0;
-  border: 1px solid #ffe2a3;
-  border-radius: var(--radius-sm);
+/* Field Notes: internal review text and/or external-review link. */
+.field-notes {
+  margin-top: 2px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-.tool-review h4 {
-  margin: 0 0 6px;
-  font-size: 0.85rem;
+.field-notes-header {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #92400e;
+  letter-spacing: 0.06em;
+  color: var(--secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
-.tool-review p {
+.field-notes-header i {
+  font-size: 0.82em;
+  color: var(--text-muted);
+}
+.field-notes-body {
   margin: 0;
   font-size: 0.92rem;
   line-height: 1.5;
   color: var(--text);
 }
-.tool-review .reviewer {
-  display: block;
-  margin-top: 6px;
+.field-notes-attribution {
+  margin: 0;
   font-size: 0.82rem;
   color: var(--text-muted);
   font-style: italic;
 }
-.review-coming {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 12px;
-  background: #f8fafc;
-  border: 1px dashed #cbd5e1;
-  border-radius: var(--radius-sm);
+.field-notes-placeholder {
+  margin: 0;
   font-size: 0.88rem;
   color: var(--text-muted);
+  font-style: italic;
 }
-.review-coming a {
+.field-notes-placeholder a {
   font-weight: 600;
-  white-space: nowrap;
+  font-style: normal;
 }
+.field-notes-external {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.86rem;
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+  align-self: flex-start;
+}
+.field-notes-external:hover {
+  color: var(--primary-600);
+  text-decoration: underline;
+}
+.field-notes-external i { font-size: 0.78em; }
 
 /* ---------- States ---------- */
 .empty-state, .loading-state, .error-state {

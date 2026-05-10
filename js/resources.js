@@ -49,6 +49,14 @@
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>',
   };
 
+  // Look up the human-readable definition for a tag value from
+  // tagTaxonomy.definitions[dim][value]. Returns null if missing.
+  function getDefinition(dim, value) {
+    const defs = data && data.tagTaxonomy && data.tagTaxonomy.definitions;
+    if (!defs || !defs[dim]) return null;
+    return defs[dim][value] || null;
+  }
+
   // Pretty-print a tag value: "ai-policy" → "AI policy"; "all-levels" → "All levels".
   function prettify(value) {
     if (!value) return '';
@@ -324,15 +332,17 @@
 
       for (const { value, count } of opts) {
         const checked = state.filters[dim].includes(value);
+        const definition = getDefinition(dim, value);
         const label = document.createElement('label');
-        label.className = 'filter-option' + (checked ? ' checked' : '');
+        label.className = 'filter-option' + (checked ? ' checked' : '') + (definition ? ' has-definition' : '');
+        if (definition) label.dataset.tooltip = definition;
         label.innerHTML = `
           <input
             type="checkbox"
             value="${escapeAttr(value)}"
             ${checked ? 'checked' : ''}
           />
-          <span>${escapeHTML(prettify(value))}</span>
+          <span class="opt-text">${escapeHTML(prettify(value))}</span>
           <span class="opt-count" aria-hidden="true">${count}</span>
         `;
         const input = label.querySelector('input');
@@ -481,6 +491,9 @@
     p.textContent = r.description || '';
     card.appendChild(p);
 
+    const fieldNotes = buildFieldNotes(r);
+    if (fieldNotes) card.appendChild(fieldNotes);
+
     if (Array.isArray(r.topic) && r.topic.length) {
       const topics = document.createElement('div');
       topics.className = 'card-topics';
@@ -490,55 +503,112 @@
         const chip = document.createElement('span');
         chip.className = 'topic-chip';
         chip.textContent = prettify(t);
+        const def = getDefinition('topic', t);
+        if (def) chip.dataset.tooltip = def;
         topics.appendChild(chip);
       }
       if (extra > 0) {
         const more = document.createElement('span');
         more.className = 'topic-chip more';
         more.textContent = `+${extra} more`;
-        more.title = r.topic.slice(3).map(prettify).join(', ');
+        more.dataset.tooltip = r.topic.slice(3).map(prettify).join(', ');
         topics.appendChild(more);
       }
       card.appendChild(topics);
     }
 
-    if (r.category === 'tools-tested') {
-      if (r.review) {
-        const wrap = document.createElement('div');
-        wrap.className = 'tool-review';
-        wrap.innerHTML = `
-          <h4>Our review</h4>
-          <p>${escapeHTML(r.review)}</p>
-          ${r.reviewer ? `<span class="reviewer">— ${escapeHTML(r.reviewer)}</span>` : ''}
-        `;
-        card.appendChild(wrap);
-      } else if (r.needsReview) {
-        const wrap = document.createElement('div');
-        wrap.className = 'review-coming';
-        wrap.innerHTML = `
-          <span><i class="fas fa-clock" aria-hidden="true"></i> Review coming soon</span>
-          <a href="${escapeAttr(SUBMIT_URL)}" target="_blank" rel="noopener noreferrer">
-            Submit yours →
-          </a>
-        `;
-        card.appendChild(wrap);
-      }
-    }
-
-    if (r.author) {
-      const author = document.createElement('p');
-      author.className = 'card-author';
-      author.innerHTML = `<i class="fas fa-user-edit" aria-hidden="true"></i>${escapeHTML(r.author)}`;
-      card.appendChild(author);
-    }
+    const attribution = buildAttribution(r);
+    if (attribution) card.appendChild(attribution);
 
     return card;
+  }
+
+  // Look up a curator's display name. For community submissions, prefer the
+  // submitter's name on the resource (`submittedBy`). Otherwise fall back to
+  // the sourceDisplay mapping, then the raw source value.
+  function getCuratorDisplay(r) {
+    if (!r.source) return null;
+    if (r.source === 'community' && r.submittedBy && String(r.submittedBy).trim()) {
+      return String(r.submittedBy).trim();
+    }
+    const map = data.sourceDisplay || {};
+    return map[r.source] || r.source;
+  }
+
+  // "Added by <curator>" attribution at the bottom of a card.
+  function buildAttribution(r) {
+    const curator = getCuratorDisplay(r);
+    if (!curator) return null;
+
+    const wrap = document.createElement('p');
+    wrap.className = 'card-attribution';
+
+    const span = document.createElement('span');
+    span.className = 'attribution-item attribution-curator';
+    span.innerHTML = `<i class="fas fa-thumbtack" aria-hidden="true"></i> Added by ${escapeHTML(curator)}`;
+    wrap.appendChild(span);
+
+    return wrap;
+  }
+
+  // Field Notes: optional internal practitioner take + external reviews link.
+  // - r.review (non-empty)         → render review text + curator attribution
+  // - r.needsReview && !review     → "Review coming — submit yours" placeholder
+  // - r.reviewExternalUrl          → "View external reviews" link
+  // - none of the above            → no section at all
+  function buildFieldNotes(r) {
+    const hasReview = !!(r.review && String(r.review).trim());
+    const hasExternal = !!(r.reviewExternalUrl && String(r.reviewExternalUrl).trim());
+    const showPlaceholder = !hasReview && !!r.needsReview;
+    if (!hasReview && !hasExternal && !showPlaceholder) return null;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'field-notes';
+
+    const header = document.createElement('h4');
+    header.className = 'field-notes-header';
+    header.innerHTML = `<i class="fas fa-quote-left" aria-hidden="true"></i> Field Notes`;
+    wrap.appendChild(header);
+
+    if (hasReview) {
+      const body = document.createElement('p');
+      body.className = 'field-notes-body';
+      body.textContent = r.review;
+      wrap.appendChild(body);
+
+      const curator = getCuratorDisplay(r);
+      if (curator) {
+        const attr = document.createElement('p');
+        attr.className = 'field-notes-attribution';
+        attr.textContent = `— ${curator}`;
+        wrap.appendChild(attr);
+      }
+    } else if (showPlaceholder) {
+      const placeholder = document.createElement('p');
+      placeholder.className = 'field-notes-placeholder';
+      placeholder.innerHTML = `<em>Review coming — <a href="#" data-form-link="submit-review">submit yours</a></em>`;
+      wrap.appendChild(placeholder);
+    }
+
+    if (hasExternal) {
+      const ext = document.createElement('a');
+      ext.className = 'field-notes-external';
+      ext.href = r.reviewExternalUrl;
+      ext.target = '_blank';
+      ext.rel = 'noopener noreferrer';
+      ext.innerHTML = `<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View external reviews`;
+      wrap.appendChild(ext);
+    }
+
+    return wrap;
   }
 
   function badge(kind, value) {
     const span = document.createElement('span');
     span.className = `badge badge-${kind} ${kind === 'cost' ? 'cost-' + value : ''}`.trim();
     span.textContent = prettify(value);
+    const definition = getDefinition(kind, value);
+    if (definition) span.dataset.tooltip = definition;
     return span;
   }
 

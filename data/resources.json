@@ -79,7 +79,68 @@
       "education", "labor", "diversity-equity",
       "industry-strategy", "developer-tools", "agentic-ai",
       "transparency", "general", "use-cases", "responsible-ai"
-    ]
+    ],
+    "definitions": {
+      "format": {
+        "course": "A structured class, often spanning weeks with multiple modules",
+        "newsletter": "Periodic email or Substack publication, typically weekly or biweekly",
+        "podcast": "Audio show released on a regular schedule, often interviews or analysis",
+        "blog": "Personal or institutional website with ongoing posts",
+        "book": "Long-form publication, typically read cover-to-cover",
+        "video": "Video content (YouTube, recorded lectures, video series)",
+        "tool": "Software or AI service you can use directly",
+        "conference": "In-person or virtual event with talks, panels, and networking",
+        "paper": "Academic paper or research preprint",
+        "use-case": "Real-world example or case study showing AI in action",
+        "guide": "Step-by-step instructional content or reference document",
+        "database": "Structured collection of records you can search or browse",
+        "organization": "Institution, nonprofit, or program offering ongoing resources",
+        "report": "In-depth analysis document, often with data and recommendations"
+      },
+      "level": {
+        "beginner": "No prior knowledge required; explains concepts from scratch",
+        "intermediate": "Assumes some baseline familiarity with AI concepts",
+        "advanced": "Technical or specialized; assumes significant background",
+        "all-levels": "Accessible to readers across experience levels"
+      },
+      "cost": {
+        "free": "No cost to access",
+        "paid": "Requires payment, subscription, or purchase",
+        "freemium": "Free tier available; paid tier offers more features or content",
+        "varies": "Cost depends on the specific item, plan, or use"
+      },
+      "topic": {
+        "ai-policy": "AI laws, regulations, and policy proposals",
+        "ai-governance": "Frameworks for how AI is developed, deployed, and overseen",
+        "ai-safety": "Reducing harms and risks from advanced AI systems",
+        "ai-ethics": "Moral and societal questions raised by AI",
+        "china": "AI development, policy, and politics in China",
+        "geopolitics": "International power dynamics shaping AI",
+        "national-security": "AI's role in defense, intelligence, and national security",
+        "biotech": "AI applications in biology, drug discovery, and life sciences",
+        "health": "AI in healthcare, medicine, and public health",
+        "materials-science": "AI for discovering and developing new materials",
+        "semiconductors": "AI hardware: chips, fabrication, and supply chains",
+        "robotics": "AI-powered physical systems and embodied agents",
+        "cybersecurity": "AI's role in attacking and defending computer systems",
+        "data-centers": "Infrastructure powering AI compute",
+        "education": "Teaching AI in K-12, higher ed, and beyond",
+        "labor": "AI's effects on jobs, workers, and employment",
+        "diversity-equity": "Equity, inclusion, and representation in AI",
+        "industry-strategy": "Business and competitive dynamics of the AI industry",
+        "developer-tools": "Tooling for engineers building with AI",
+        "agentic-ai": "AI systems that take autonomous actions",
+        "transparency": "Disclosures, audits, and openness in AI systems",
+        "general": "Broad AI topics not tied to a specific domain",
+        "use-cases": "Real-world examples and applications of AI",
+        "responsible-ai": "Approaches to building AI that benefits society"
+      }
+    }
+  },
+  "sourceDisplay": {
+    "nick-list": "Nick Wagner",
+    "claire-list": "Claire Lunde",
+    "community": "Community submission"
   },
   "resources": [
     {
