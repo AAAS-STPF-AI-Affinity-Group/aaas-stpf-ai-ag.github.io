@@ -1,126 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources - AAAS STPF AI Policy Affinity Group</title>
-    <link rel="stylesheet" href="css/resources.css">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources - AAAS STPF AI Policy Affinity Group</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/resources.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header with Navigation -->
-    <header>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <h1>AAAS STPF AI Policy Affinity Group</h1>
-                </a>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html"><h1>AAAS STPF AI Policy Affinity Group</h1></a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="activities.html">Group Activities</a></li>
+          <li><a href="resources.html" class="active">Resources</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="mobile-menu-btn"><i class="fas fa-bars" aria-hidden="true"></i></div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header resources-page-header">
+    <div class="container">
+      <h1>AI Resource Library</h1>
+      <p class="hero-meta" id="hero-meta"></p>
+
+      <div class="resources-toolbar">
+        <label class="resources-search" for="resources-search">
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input
+            id="resources-search"
+            type="search"
+            placeholder="Search title, description, author, or topic..."
+            autocomplete="off"
+            aria-label="Search resources"
+          />
+        </label>
+
+        <!-- TODO: Replace href with the Submit-a-Resource Google Form URL once Claire provides it. -->
+        <a
+          id="submit-resource-cta"
+          class="search-submit-btn"
+          href="mailto:aipolicyag@gmail.com?subject=Resource%20submission"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-tooltip="Share a resource we don't have listed, or a review of one we do."
+        >
+          <i class="fas fa-plus" aria-hidden="true"></i>
+          Submit a resource
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Library / landing area -->
+  <section class="resource-library">
+    <div class="container">
+
+      <div id="loading-state" class="loading-state">
+        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading resources…
+      </div>
+
+      <div id="error-state" class="error-state" hidden>
+        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+        <p>Couldn't load the resource library. Please refresh the page or try again later.</p>
+      </div>
+
+      <!-- Landing view: 7 category tiles -->
+      <div id="landing-view" class="landing-view" hidden>
+        <div id="category-tiles" class="category-tiles" role="list"></div>
+      </div>
+
+      <!-- Library view: category drill-in or search-all results -->
+      <div id="library-view" class="library-view" hidden>
+
+        <a href="?" class="breadcrumb" id="breadcrumb-link">
+          <i class="fas fa-arrow-left" aria-hidden="true"></i> All Categories
+        </a>
+
+        <header class="library-context" id="library-context"></header>
+
+        <div class="library-grid">
+
+          <!-- Filter sidebar -->
+          <aside class="filter-sidebar" id="filter-sidebar" aria-label="Resource filters">
+            <div class="filter-sidebar-header">
+              <h2>Filters</h2>
+              <button
+                type="button"
+                class="filter-close"
+                id="filter-close"
+                aria-label="Close filters"
+              ><i class="fas fa-times" aria-hidden="true"></i></button>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="activities.html">Group Activities</a></li>
-                    <li><a href="resources.html" class="active">Resources</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
+
+            <div class="filter-groups" id="filter-groups"></div>
+
+            <div class="filter-sidebar-footer">
+              <button type="button" class="btn-link" id="clear-filters">
+                <i class="fas fa-eraser" aria-hidden="true"></i> Clear all filters
+              </button>
             </div>
+          </aside>
+
+          <div class="library-main">
+            <div class="library-toolbar">
+              <button
+                type="button"
+                class="btn-ghost filter-open-btn"
+                id="filter-open"
+                aria-expanded="false"
+                aria-controls="filter-sidebar"
+              >
+                <i class="fas fa-sliders-h" aria-hidden="true"></i> Filters
+                <span class="filter-active-count" id="filter-active-count" hidden>0</span>
+              </button>
+              <p class="match-count" id="match-count" aria-live="polite"></p>
+            </div>
+
+            <div id="active-filters" class="active-filters" aria-live="polite"></div>
+
+            <div id="resource-cards" class="resource-cards"></div>
+
+            <div id="empty-state" class="empty-state" hidden>
+              <i class="fas fa-inbox" aria-hidden="true"></i>
+              <h3>No resources match your filters</h3>
+              <p>
+                Try removing one, or
+                <a id="empty-state-submit" href="#" target="_blank" rel="noopener noreferrer">
+                  submit a resource you'd recommend</a>.
+              </p>
+              <button type="button" class="btn btn-outline" id="empty-state-clear">
+                Clear filters
+              </button>
+            </div>
+
+          </div>
         </div>
-    </header>
+      </div>
+    </div>
+  </section>
 
-    <!-- Resources Hero Section -->
-    <section class="resources-hero">
-        <div class="container">
-            <h1>AI Resources</h1>
-            <p>Curated tools, guides, and references for policy professionals working with artificial intelligence</p>
-            
-            <!-- Search Bar -->
-            <div class="resource-search">
-                <input type="text" placeholder="Search resources...">
-                <button type="submit"><i class="fas fa-search"></i> Search</button>
-            </div>
-            
-            <!-- Category Buttons -->
-            <div class="resource-categories">
-                <button class="category-btn active">All</button>
-                <button class="category-btn">Policy Guides</button>
-                <button class="category-btn">Technical Resources</button>
-                <button class="category-btn">Academic Papers</button>
-                <button class="category-btn">Case Studies</button>
-                <button class="category-btn">Toolkits</button>
-            </div>
+  <div
+    id="filter-backdrop"
+    class="filter-backdrop"
+    hidden
+    aria-hidden="true"
+  ></div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h3>AAAS STPF AI Policy Affinity Group</h3>
+          <p>Advancing AI policy and research in federal service: The work of the AAAS STPF AI Policy Affinity Group does not reflect the views of the S&amp;T Policy Fellowships,
+          AAAS, its Council, Board of Directors, officers, or members. AAAS is not responsible for the
+          accuracy of this material. The affinity group members have made this material available as a
+          public service, and it does not constitute endorsement by the association in any manner.</p>
         </div>
-    </section>
-
-    <!-- Featured Resource Section -->
-    <section class="featured-resource">
-        <div class="container">
-            <div class="featured-resource-card">
-                <div class="featured-badge">
-                    <i class="fas fa-star"></i> Featured Resource
-                </div>
-                <div class="featured-content">
-                    <h2>AI Reading List for Policy Professionals</h2>
-                    <p class="featured-meta">Curated by Nicholas Wagner | Last Updated: March 2025</p>
-                    <p class="featured-description">
-                        A collection of courses and experts curated for policymakers and government professionals working with artificial intelligence.
-                    </p>
-                    <div class="featured-tags">
-                        <span class="tag">Policy</span>
-                        <span class="tag">Reading List</span>
-                        <span class="tag">Comprehensive</span>
-                    </div>
-                    <a href="https://github.com/nawagner/AI-reading-list-for-policy-people" class="btn" target="_blank">
-                        <i class="fab fa-github"></i> Access Repository
-                    </a>
-                </div>
-            </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="activities.html">Group Activities</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Resource Listing Section -->
-    <section class="resource-listing">
-        <div class="container">
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h3>AAAS STPF AI Affinity Group</h3>
-                    <p>Advancing AI policy and research in federal service: The work of the AAAS STPF AI affinity group does not reflect the views of the S&T Policy Fellowships,
-                    AAAS, its Council, Board of Directors, officers, or members. AAAS is not responsible for the
-                    accuracy of this material. The affinity group members have made this material available as a
-                    public service, and it does not constitute endorsement by the association in any manner. </p>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="activities.html">Group Activities</a></li
-                        <li><a href="resources.html">Resources</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contact Us</h4>
-                    <p><i class="fas fa-envelope"></i> aipolicyag@gmail.com</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 AAAS STPF AI Affinity Group. All rights reserved.</p>
-            </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p><i class="fas fa-envelope" aria-hidden="true"></i> aipolicyag@gmail.com</p>
         </div>
-    </footer>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 AAAS STPF AI Policy Affinity Group. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
-    <script src="js/main.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/resources.js"></script>
 </body>
 </html>
