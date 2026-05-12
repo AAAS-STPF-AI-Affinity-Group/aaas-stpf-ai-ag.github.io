@@ -57,6 +57,14 @@
     return defs[dim][value] || null;
   }
 
+  // Normalize a tag field that may be a string, an array, or absent.
+  // Used for format/level/cost which now accept either shape.
+  function toArray(v) {
+    if (Array.isArray(v)) return v.filter(Boolean);
+    if (v == null || v === '') return [];
+    return [v];
+  }
+
   // Pretty-print a tag value: "ai-policy" → "AI policy"; "all-levels" → "All levels".
   function prettify(value) {
     if (!value) return '';
@@ -298,7 +306,7 @@
   function getDimensionOptions(dim, baseList) {
     const seen = new Map();
     for (const r of baseList) {
-      const values = dim === 'topic' ? (r.topic || []) : [r[dim]];
+      const values = toArray(r[dim]);
       for (const v of values) {
         if (!v) continue;
         seen.set(v, (seen.get(v) || 0) + 1);
@@ -415,13 +423,12 @@
   function getFilteredResources() {
     let list = getCategoryResources();
 
-    for (const dim of ['format', 'level', 'cost']) {
+    // OR-within-dimension: a resource matches if any of its values for this
+    // dim is in the selected set. format/level/cost now accept arrays too.
+    for (const dim of ['format', 'level', 'cost', 'topic']) {
       const sel = state.filters[dim];
-      if (sel.length) list = list.filter(r => sel.includes(r[dim]));
-    }
-    if (state.filters.topic.length) {
-      const sel = state.filters.topic;
-      list = list.filter(r => Array.isArray(r.topic) && r.topic.some(t => sel.includes(t)));
+      if (!sel.length) continue;
+      list = list.filter(r => toArray(r[dim]).some(v => sel.includes(v)));
     }
 
     const q = state.q.trim().toLowerCase();
@@ -481,9 +488,9 @@
 
     const meta = document.createElement('div');
     meta.className = 'card-meta';
-    if (r.format) meta.appendChild(badge('format', r.format));
-    if (r.level) meta.appendChild(badge('level', r.level));
-    if (r.cost) meta.appendChild(badge('cost', r.cost));
+    for (const v of toArray(r.format)) meta.appendChild(badge('format', v));
+    for (const v of toArray(r.level)) meta.appendChild(badge('level', v));
+    for (const v of toArray(r.cost)) meta.appendChild(badge('cost', v));
     card.appendChild(meta);
 
     const p = document.createElement('p');
@@ -520,7 +527,27 @@
     const attribution = buildAttribution(r);
     if (attribution) card.appendChild(attribution);
 
+    const actions = buildCardActions(r);
+    if (actions) card.appendChild(actions);
+
     return card;
+  }
+
+  // Per-card action links: "Suggest edit" + "Submit a review".
+  // Both link to TBD Google Forms; until Claire wires them up, the href is
+  // a placeholder ("#") with a data-form-link key for later replacement.
+  function buildCardActions(r) {
+    const wrap = document.createElement('div');
+    wrap.className = 'card-actions';
+    wrap.innerHTML = `
+      <a href="#" data-form-link="suggest-edit" data-resource-id="${escapeAttr(r.id)}">
+        <i class="fas fa-pen-to-square" aria-hidden="true"></i> Suggest edit
+      </a>
+      <a href="#" data-form-link="submit-review" data-resource-id="${escapeAttr(r.id)}">
+        <i class="fas fa-comment-dots" aria-hidden="true"></i> Submit a review
+      </a>
+    `;
+    return wrap;
   }
 
   // Look up a curator's display name. For community submissions, prefer the

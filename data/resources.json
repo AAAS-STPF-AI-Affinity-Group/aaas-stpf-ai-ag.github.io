@@ -65,7 +65,7 @@
   ],
   "tagTaxonomy": {
     "format": [
-      "course", "newsletter", "podcast", "blog", "book", "video",
+      "course", "certification", "newsletter", "podcast", "blog", "book", "video",
       "tool", "conference", "paper", "use-case", "guide", "database",
       "organization", "report"
     ],
@@ -83,6 +83,7 @@
     "definitions": {
       "format": {
         "course": "A structured class, often spanning weeks with multiple modules",
+        "certification": "A credential or formal qualification you earn by completing requirements (often paired with a course)",
         "newsletter": "Periodic email or Substack publication, typically weekly or biweekly",
         "podcast": "Audio show released on a regular schedule, often interviews or analysis",
         "blog": "Personal or institutional website with ongoing posts",
@@ -1334,15 +1335,27 @@
       "source": "claire-list"
     },
     {
-      "id": "caidp",
-      "title": "CAIDP — AI Policy Clinic & Index",
+      "id": "caidp-clinic",
+      "title": "CAIDP — AI Policy Clinic",
       "url": "https://www.caidp.org/",
-      "description": "Center for AI and Digital Policy. Runs an AI policy clinic and publishes the AI and Democratic Values Index.",
+      "description": "Center for AI and Digital Policy's flagship AI policy clinic. Free, multi-level program with a certification track for participants studying AI law, policy, and governance.",
       "category": "policy-guides",
-      "format": "organization",
-      "level": "intermediate",
-      "cost": "varies",
+      "format": ["course", "certification"],
+      "level": "all-levels",
+      "cost": "free",
       "topic": ["ai-policy", "ai-governance"],
+      "source": "claire-list"
+    },
+    {
+      "id": "caidp-index",
+      "title": "CAIDP — AI and Democratic Values Index",
+      "url": "https://www.caidp.org/reports/aidv-2025/",
+      "description": "Annual cross-country index from the Center for AI and Digital Policy ranking national AI policies against democratic values criteria.",
+      "category": "policy-guides",
+      "format": "report",
+      "level": "intermediate",
+      "cost": "free",
+      "topic": ["ai-policy", "ai-governance", "geopolitics"],
       "source": "claire-list"
     },
     {
@@ -1595,6 +1608,19 @@
       "author": "Nicholas Wagner",
       "source": "nick-list",
       "featured": true
+    },
+    {
+      "id": "learning-journey-ai",
+      "title": "Learning Journey AI",
+      "url": "https://www.learningjourneyai.com/",
+      "description": "Practitioner-focused learning platform with guides and structured courses on applying AI tools (including Claude Code) to real work — from financial modeling to research.",
+      "category": "build-skills",
+      "format": "organization",
+      "level": "all-levels",
+      "cost": "freemium",
+      "topic": ["use-cases", "developer-tools"],
+      "source": "nick-list",
+      "needsReview": true
     }
   ]
 }
