@@ -12,9 +12,9 @@
 
   const DATA_URL = './data/resources.json';
 
-  // TODO: Replace mailto-based actions with Google Form URLs once Claire
-  // provides them. Until then, every submit/edit/review action opens a
-  // pre-filled email to the affinity group inbox.
+  // Submit / edit / review actions open a pre-filled email to the
+  // affinity-group inbox. To move to Google Forms later, swap the
+  // returned URLs in SUBMIT_URL / suggestEditHref / submitReviewHref.
   const CONTACT_EMAIL = 'aipolicyag@gmail.com';
   const SUBMIT_URL = `mailto:${CONTACT_EMAIL}?subject=Resource%20submission`;
 
