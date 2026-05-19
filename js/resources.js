@@ -12,8 +12,16 @@
 
   const DATA_URL = './data/resources.json';
 
-  // TODO: Replace with the Google Form URL once Claire provides it.
-  const SUBMIT_URL = 'mailto:aipolicyag@gmail.com?subject=Resource%20submission';
+  // TODO: Replace mailto-based actions with Google Form URLs once Claire
+  // provides them. Until then, every submit/edit/review action opens a
+  // pre-filled email to the affinity group inbox.
+  const CONTACT_EMAIL = 'aipolicyag@gmail.com';
+  const SUBMIT_URL = `mailto:${CONTACT_EMAIL}?subject=Resource%20submission`;
+
+  // Build a mailto: URL with a properly-encoded subject and body.
+  function mailtoLink(subject, body) {
+    return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
 
   const FILTER_DIMENSIONS = ['format', 'level', 'cost', 'topic'];
 
@@ -534,19 +542,42 @@
   }
 
   // Per-card action links: "Suggest edit" + "Submit a review".
-  // Both link to TBD Google Forms; until Claire wires them up, the href is
-  // a placeholder ("#") with a data-form-link key for later replacement.
+  // Each opens a pre-filled email referencing the specific resource.
+  // The data-form-link attribute is kept as a hook for swapping in a
+  // Google Form URL later without touching this logic.
+  function suggestEditHref(r) {
+    return mailtoLink(
+      `Suggested edit: ${r.title}`,
+      `Resource: ${r.title}\nLink: ${r.url}\nID: ${r.id}\n\n` +
+      `What should change? (tags, description, category, level, cost, broken link, etc.)\n\n`
+    );
+  }
+  function submitReviewHref(r) {
+    return mailtoLink(
+      `Review submission: ${r.title}`,
+      `Resource: ${r.title}\nLink: ${r.url}\nID: ${r.id}\n\n` +
+      `Your review:\n\n\nYour name (optional, for attribution):\n`
+    );
+  }
+
   function buildCardActions(r) {
     const wrap = document.createElement('div');
     wrap.className = 'card-actions';
-    wrap.innerHTML = `
-      <a href="#" data-form-link="suggest-edit" data-resource-id="${escapeAttr(r.id)}">
-        <i class="fas fa-pen-to-square" aria-hidden="true"></i> Suggest edit
-      </a>
-      <a href="#" data-form-link="submit-review" data-resource-id="${escapeAttr(r.id)}">
-        <i class="fas fa-comment-dots" aria-hidden="true"></i> Submit a review
-      </a>
-    `;
+
+    const edit = document.createElement('a');
+    edit.href = suggestEditHref(r);
+    edit.dataset.formLink = 'suggest-edit';
+    edit.dataset.resourceId = r.id;
+    edit.innerHTML = `<i class="fas fa-pen-to-square" aria-hidden="true"></i> Suggest edit`;
+
+    const review = document.createElement('a');
+    review.href = submitReviewHref(r);
+    review.dataset.formLink = 'submit-review';
+    review.dataset.resourceId = r.id;
+    review.innerHTML = `<i class="fas fa-comment-dots" aria-hidden="true"></i> Submit a review`;
+
+    wrap.appendChild(edit);
+    wrap.appendChild(review);
     return wrap;
   }
 
@@ -613,7 +644,14 @@
     } else if (showPlaceholder) {
       const placeholder = document.createElement('p');
       placeholder.className = 'field-notes-placeholder';
-      placeholder.innerHTML = `<em>Review coming — <a href="#" data-form-link="submit-review">submit yours</a></em>`;
+      const link = document.createElement('a');
+      link.href = submitReviewHref(r);
+      link.dataset.formLink = 'submit-review';
+      link.dataset.resourceId = r.id;
+      link.textContent = 'submit yours';
+      const em = document.createElement('em');
+      em.append('Review coming — ', link);
+      placeholder.appendChild(em);
       wrap.appendChild(placeholder);
     }
 
